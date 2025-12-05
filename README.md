@@ -48,3 +48,11 @@ LeNet-1 Architecture for handwritten digit recognition is given by
 ![Alt text](images/Slide26.JPG?raw=true "7 Keras vs 7 Vivado")
 ![Alt text](images/Slide27.JPG?raw=true "8 Keras vs 8 Vivado")
 ![Alt text](images/Slide28.JPG?raw=true "9 Keras vs 9 Vivado")
+
+
+Credits
+
+This is a modified project.
+This repository contains modified project files based on the original work from LeNet-CNN-Accelerator-Hardware-for-FPGA
+.![Alt text]("https://github.com/hazooree/LeNet-CNN-Accelerator-Hardware-for-FPGA")
+All credits for the original design go to the respective author.
