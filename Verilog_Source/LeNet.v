@@ -53,7 +53,7 @@ reg [Ma-1:0]Poolif;
 initial 
 begin
    $readmemb("W.mem",W);
-   $readmemb("I3.mem",I);
+   $readmemb("Test_image.mem",I);
 end
 integer i,j,m,n;
 initial
