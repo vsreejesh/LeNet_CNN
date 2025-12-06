@@ -1,0 +1,15 @@
+0.7
+2020.2
+May 22 2025
+00:13:55
+D:/workshop_verify/lenet_cnn/lenet_cnn.sim/sim_1/behav/xsim/glbl.v,1741209010,verilog,,,,glbl,,,,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sim_1/imports/Verilog_Source/tb_LeNet.v,1765028813,verilog,,,,tb_LeNet,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/Conv3D.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/FC.v,,Conv3D;PE_Matrix6F,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/FC.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/LeNet.v,,FC,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/LeNet.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/MACC.v,,LeNet,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/MACC.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/Multiplication.v,,MACC,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/Multiplication.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE.v,,Multiplication,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE_Array.v,,PE,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE_Array.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/max2.v,,PE_Array,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/max2.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/softmax.v,,max2,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,
+D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/softmax.v,1765028813,verilog,,D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sim_1/imports/Verilog_Source/tb_LeNet.v,,softmax,,,../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef,,,,,

@@ -1,0 +1,18 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../app/xilinx_25/2025.1/Vivado/data/rsb/busdef" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/Conv3D.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/FC.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/LeNet.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/MACC.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/Multiplication.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/PE_Array.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/max2.v" \
+"../../../../lenet_cnn.srcs/sources_1/imports/LeNet_CNN-main/Verilog_Source/softmax.v" \
+"../../../../lenet_cnn.srcs/sim_1/imports/Verilog_Source/tb_LeNet.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

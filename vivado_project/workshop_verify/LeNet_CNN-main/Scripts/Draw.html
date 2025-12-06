@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart MNIST Digit Drawer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h2 { margin-bottom: 5px; color: #fab387; }
+        p { color: #a6adc8; margin-bottom: 20px; font-size: 0.9em; }
+
+        .main-container {
+            display: flex;
+            gap: 40px;
+            background: #313244;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Left Side: Drawing */
+        .drawing-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        canvas#drawCanvas {
+            border: 4px solid #45475a;
+            background-color: black;
+            cursor: crosshair;
+            border-radius: 8px;
+            touch-action: none; /* Fix for mobile scrolling */
+        }
+
+        .tools {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-clear { background-color: #f38ba8; color: #1e1e2e; }
+        .btn-center { background-color: #89b4fa; color: #1e1e2e; font-size: 1.1em; }
+        .btn-dl { background-color: #a6e3a1; color: #1e1e2e; }
+        
+        button:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        /* Right Side: Verification */
+        .verify-section {
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #181825;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #45475a;
+        }
+
+        .robot-vision-box {
+            width: 140px;
+            height: 140px;
+            border: 2px solid #fab387;
+            margin-bottom: 15px;
+            background-color: black;
+            /* Pixelated view to see exactly what the model sees */
+            image-rendering: pixelated; 
+        }
+
+        .status-text {
+            font-size: 0.9em;
+            color: #bac2de;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #11111b;
+            color: #a6e3a1;
+            border: 1px solid #313244;
+            font-family: monospace;
+            font-size: 10px;
+            padding: 8px;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Smart Digit Drawer (Auto-Centering)</h2>
+    <p>Draw a digit. Click "Auto-Center" to fix alignment issues instantly.</p>
+
+    <div class="main-container">
+        
+        <div class="drawing-section">
+            <canvas id="drawCanvas" width="280" height="280"></canvas>
+            
+            <div class="tools">
+                <button class="btn-clear" onclick="clearCanvas()">Clear</button>
+                <button class="btn-center" onclick="processAndCenter()">Auto-Center & Verify ➜</button>
+            </div>
+        </div>
+
+        <div class="verify-section">
+            <h4 style="margin: 0 0 10px 0; color: #fab387;">ROBOT VISION</h4>
+            <canvas id="previewCanvas" width="28" height="28" class="robot-vision-box"></canvas>
+            
+            <div class="status-text">
+                This is the exact 28x28 input.<br>
+                <b>Is it centered?</b><br>
+                If yes, the model will work.
+            </div>
+
+            <button class="btn-dl" onclick="downloadImage()" style="width:100%; margin-bottom:10px;">Download Image</button>
+            
+            <span style="font-size:0.8em; color:#6c7086;">MEM File Output:</span>
+            <textarea id="memOutput" readonly onclick="this.select()"></textarea>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('drawCanvas');
+        const ctx = canvas.getContext('2d');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        
+        let isDrawing = false;
+
+        // 1. Setup Canvas
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 20; // Thick lines are better for neural networks
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        // 2. Mouse/Touch Events
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+        
+        // Touch support for tablets/phones
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDraw(e.touches[0]); });
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
+        canvas.addEventListener('touchend', stopDraw);
+
+        function startDraw(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            const pos = getPos(e);
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Clear preview too
+            previewCtx.fillStyle = "black";
+            previewCtx.fillRect(0, 0, 28, 28);
+            document.getElementById('memOutput').value = "";
+        }
+
+        // --- THE BRAINS: Auto-Centering Algorithm ---
+        function processAndCenter() {
+            // 1. Get image data from the big canvas
+            // We downscale it first to 28x28 in memory to analyze it
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = 28;
+            tempCanvas.height = 28;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // High quality downscaling
+            tempCtx.drawImage(canvas, 0, 0, 280, 280, 0, 0, 28, 28);
+            
+            let imgData = tempCtx.getImageData(0, 0, 28, 28);
+            let data = imgData.data; // RGBA array
+            
+            // 2. Calculate Center of Mass
+            let totalMass = 0;
+            let sumX = 0;
+            let sumY = 0;
+            
+            // Grid 28x28
+            for (let y = 0; y < 28; y++) {
+                for (let x = 0; x < 28; x++) {
+                    // Just look at Red channel (since it's grayscale)
+                    let brightness = data[(y * 28 + x) * 4];
+                    
+                    if (brightness > 50) { // Threshold to ignore noise
+                        sumX += x * brightness;
+                        sumY += y * brightness;
+                        totalMass += brightness;
+                    }
+                }
+            }
+            
+            // If empty, do nothing
+            if (totalMass === 0) return;
+
+            // Average X and Y
+            let centerX = sumX / totalMass;
+            let centerY = sumY / totalMass;
+
+            // 3. Calculate Shift needed to move to center (14, 14)
+            let shiftX = Math.round(14 - centerX);
+            let shiftY = Math.round(14 - centerY);
+
+            // 4. Apply Shift
+            // We create a new empty buffer
+            let newImgData = tempCtx.createImageData(28, 28);
+            let newData = newImgData.data;
+
+            for (let y = 0; y < 28; y++) {
+                for (let x = 0; x < 28; x++) {
+                    // Original Pixel position
+                    let srcX = x - shiftX;
+                    let srcY = y - shiftY;
+
+                    if (srcX >= 0 && srcX < 28 && srcY >= 0 && srcY < 28) {
+                        let srcIdx = (srcY * 28 + srcX) * 4;
+                        let dstIdx = (y * 28 + x) * 4;
+                        
+                        // Copy pixel
+                        newData[dstIdx] = data[srcIdx];     // R
+                        newData[dstIdx+1] = data[srcIdx+1]; // G
+                        newData[dstIdx+2] = data[srcIdx+2]; // B
+                        newData[dstIdx+3] = 255;            // Alpha
+                    }
+                }
+            }
+
+            // 5. Update the Preview Window
+            previewCtx.putImageData(newImgData, 0, 0);
+
+            // 6. Generate MEM Text
+            generateMemFile(newData);
+        }
+
+        function generateMemFile(data) {
+            let output = "";
+            for (let i = 0; i < 28 * 28; i++) {
+                // Get brightness (Red channel)
+                let val = data[i * 4];
+                
+                // Logic: val is 0-255. 
+                // We want 32-bit hex/binary string representation of (val/255 * 256) which is just 'val' basically.
+                // But following your script logic: int(256 * (val/255)) approx equal to val.
+                // Let's stick to the 32-bit binary format.
+                
+                // If you need exact FPGA logic:
+                let bin = val.toString(2);
+                while (bin.length < 32) bin = "0" + bin;
+                
+                output += bin + "\n";
+            }
+            document.getElementById('memOutput').value = output;
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'centered_digit.png';
+            link.href = previewCanvas.toDataURL("image/png");
+            link.click();
+        }
+
+    </script>
+</body>
+</html>

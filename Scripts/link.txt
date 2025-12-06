@@ -1,0 +1,9 @@
+cnn visualization
+
+https://youtu.be/UxIS_PoVoz8?si=H7YF4wmoYx3nGgI7
+
+
+
+visualizer
+
+https://adamharley.com/nn_vis/cnn/3d.html

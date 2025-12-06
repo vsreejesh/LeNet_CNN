@@ -1,0 +1,14 @@
+Time resolution is 1 ps
+
+
+/////////////////////////////////////////////////////
+//                                                 //
+//            PREDICTED DIGIT DETECTED             //
+//                                                 //
+//               N  I  N  E                    //
+//                                                     //
+/////////////////////////////////////////////////////
+
+
+Simulation Finished.
+$finish called at time : 88 us : File "D:/workshop_verify/lenet_cnn/lenet_cnn.srcs/sim_1/imports/Verilog_Source/tb_LeNet.v" Line 76
