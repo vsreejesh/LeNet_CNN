@@ -17,6 +17,8 @@ Project Manager -> Settings -> Project Setting -> Simulation -> Find Simulation 
 #### Alternatevly: You can directly run this command in 'tcl console'
 **_set_property -name {xsim.simulate.runtime} -value {1000us} -objects [get_filesets sim_1]_**
 #### 7. Simulate and get the desired result
+#### 8. Draw custom digit using draw.html in script dir and copyt the data generated and paste it on the l*.mem file for verification.
+#### 9. for better understanding open animator.html in script dir.
 # Details of work
 ## LeNet-1 Network
 LeNet-1 Architecture for handwritten digit recognition is given by
